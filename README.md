@@ -20,7 +20,7 @@ cp .env .env.local
 # Start a dev server
 symfony server:start 
 ```
-Open in your browser:
+Open in your browser (ports may vary):
 ```
 UI: http://127.0.0.1:8000/weather-ui
 
