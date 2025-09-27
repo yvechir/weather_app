@@ -1,0 +1,82 @@
+{# templates/weather/weather-ui.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Weather'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12 col-lg-8 mx-auto">
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h1 class="h4 mb-3">{{ 'Check the weather'|trans }}</h1>
+                    <form method="get" action="{{ path('weather_ui') }}" class="row gy-2 gx-2 align-items-end">
+                        <div class="col-12 col-md-8">
+                            <label for="city" class="form-label">{{ 'City'|trans }}</label>
+                            <input
+                                type="text"
+                                id="city"
+                                name="city"
+                                value="{{ city }}"
+                                class="form-control"
+                                placeholder="{{ 'E.g., London'|trans }}"
+                            >
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <button type="submit" class="btn btn-primary w-100">{{ 'Get'|trans }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {% if result is defined and result.error is defined %}
+                <div class="alert alert-danger" role="alert">
+                    {{ 'Error'|trans }}: {{ result.error }}
+                </div>
+            {% endif %}
+
+            {% if result is defined and result.error is not defined %}
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h2 class="h5 mb-0">
+                                    {{ 'Weather in'|trans }} {{ result.city }}, {{ result.country }}
+                                </h2>
+                                <small class="text-muted">{{ 'Updated'|trans }}: {{ result.last_updated }}</small>
+                            </div>
+                            <span class="badge text-bg-info fs-6">{{ result.condition }}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-4">
+                                <div class="p-3 border rounded text-center">
+                                    <div class="h3 fw-bold">{{ result.temperature }}°C</div>
+                                    <div class="text-muted">{{ 'Temperature'|trans }}</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="p-3 border rounded text-center">
+                                    <div class="h3 fw-bold">{{ result.humidity }}%</div>
+                                    <div class="text-muted">{{ 'Humidity'|trans }}</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="p-3 border rounded text-center">
+                                    <div class="h3 fw-bold">{{ result.wind_speed }} km/h</div>
+                                    <div class="text-muted">{{ 'Wind'|trans }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if city == '' %}
+                <p class="text-muted mt-3">{{ 'Enter a city and click "Get".'|trans }}</p>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}
